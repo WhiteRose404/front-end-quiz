@@ -1,42 +1,46 @@
 import React from 'react';
 import {
   ChakraProvider,
-  Box,
-  Text,
-  Link,
-  VStack,
-  Code,
-  Grid,
   theme,
 } from '@chakra-ui/react';
-import { ColorModeSwitcher } from './ColorModeSwitcher';
-import { Logo } from './Logo';
 import Layout from './layout';
+import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import About from './pages/About';
+import Home from './pages/Home';
+import Form from './pages/Form';
+import SignIn from './pages/Signin';
+import { AnimatePresence } from 'framer-motion';
+
+const router = createBrowserRouter([{
+  path: '/',
+  // exact: true,
+  element: <Home />,
+},
+{
+  path: '/about',
+  // exact: true,
+  element: <About />,
+}, {
+  path: '/login',
+  // exact: true,
+  element: <SignIn />,
+}, {
+  path: '/form',
+  // exact: true,
+  element: <Form />,
+}, {
+  path: '*',
+  element: <div>404</div>,
+}
+]);
 
 function App() {
   return (
     <ChakraProvider theme={theme}>
       <Layout>
-        <Box textAlign="center" fontSize="xl">
-          <Grid p={3}>
-            <ColorModeSwitcher justifySelf="flex-end" />
-            <VStack spacing={8}>
-              <Logo h="40vmin" pointerEvents="none" />
-              <Text>
-                Edit <Code fontSize="xl">src/App.js</Code> and save to reload.
-              </Text>
-              <Link
-                color="teal.500"
-                href="https://chakra-ui.com"
-                fontSize="2xl"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Learn Chakra
-              </Link>
-            </VStack>
-          </Grid>
-        </Box>
+        <AnimatePresence mode="wait" exitBeforeEnter>
+          <RouterProvider router={router} />
+        </AnimatePresence>
       </Layout>
     </ChakraProvider>
   );
