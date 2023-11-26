@@ -12,9 +12,10 @@ import {
   Icon,
   useColorModeValue,
   Button,
-  Link
 } from '@chakra-ui/react'
 // import { IoAnalyticsSharp, IoLogoBitcoin, IoSearchSharp } from 'react-icons/io5'
+import { Link } from 'react-router-dom'
+
 
 const Feature = ({ text, icon, iconBg }) => {
   return (
@@ -96,7 +97,7 @@ export default function SplitWithImage() {
             _focus={{
               bgGradient: 'linear(to-r, red.400,pink.400)',
             }}
-            href={'/login'}
+            to={'/login'}
         >
             Login to Start QuizGenius
         </Button>
