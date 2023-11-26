@@ -1,13 +1,18 @@
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Container, Box, Button, Heading, Text, Stack, Checkbox, Input, Select, Flex } from '@chakra-ui/react';
 import { 
   AnimatePresence,
   motion
 } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
+import withAuth from '../../lib/auth';
 
 const Quiz = () => {
+  useEffect(() => {
+    console.log("Quiz");
+    withAuth();
+  }, []);
   const [currentRound, setCurrentRound] = React.useState(1);
   const [quizTopic, setQuizTopic] = React.useState("");
   const [customQuizTopic, setCustomQuizTopic] = React.useState("");
@@ -24,7 +29,7 @@ const Quiz = () => {
   return (
     <Container p={4}>
       <Heading as="h1" mb={4}>
-        Chose a topic
+        Choose a topic
       </Heading>
       <Flex
         direction="column"
@@ -57,7 +62,7 @@ const Quiz = () => {
               exit={{ opacity: 0 }}
               ml={5}
             >
-              <Text>Chose other topic:</Text>
+              <Text>Choose other topic:</Text>
               <Input
                 placeholder="Blood cells"
                 onChange={(e)=>{

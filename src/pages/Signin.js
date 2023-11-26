@@ -1,5 +1,4 @@
-'use client'
-
+import React, { useEffect } from 'react';
 import {
   Flex,
   Box,
@@ -8,9 +7,19 @@ import {
   Input,
   Stack,
   Button,
-} from '@chakra-ui/react'
+} from '@chakra-ui/react';
+import signin from '../lib/signin';
+import { useNavigate } from 'react-router-dom';
+
 
 export default function SimpleCard() {
+  const [username, setUsername] = React.useState('');
+  const [password, setPassword] = React.useState('');
+  const navigate = useNavigate();
+  useEffect(() => {
+    // remove token from local storage
+    localStorage.removeItem('token');
+  }, []);
   return (
     <Flex
       align={'center'}
@@ -22,12 +31,12 @@ export default function SimpleCard() {
           p={8}>
           <Stack spacing={4}>
             <FormControl id="email">
-              <FormLabel fontSize={'sm'}>Email address</FormLabel>
-              <Input type="email" />
+              <FormLabel fontSize={'sm'}>Username</FormLabel>
+              <Input type="text" onChange={(e)=>setUsername(e.target.value)}/>
             </FormControl>
             <FormControl id="password">
               <FormLabel fontSize={'sm'}>Password</FormLabel>
-              <Input type="password" />
+              <Input type="password" onChange={(e)=>setPassword(e.target.value)}/>
             </FormControl>
             <Stack spacing={10}>
               <Button
@@ -35,7 +44,15 @@ export default function SimpleCard() {
                 color={'white'}
                 _hover={{
                   bg: 'blue.500',
-                }}>
+                }}
+                onClick={async () => {
+                  try{
+                    await signin(username, password);
+                  }catch(err){
+                    console.log(err);
+                  }
+                }}
+                >
                 Log in
               </Button>
             </Stack>

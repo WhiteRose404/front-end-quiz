@@ -54,8 +54,8 @@ export default function SmallWithSocial() {
         spacing={4}
         justify={{ base: 'center', md: 'space-between' }}
         align={{ base: 'center', md: 'center' }}>
-        <Text>© 2022 Chakra Templates. All rights reserved</Text>
-        <Stack direction={'row'} spacing={6}>
+        <Text>© Projet TDLOG 2023</Text>
+        {/* <Stack direction={'row'} spacing={6}>
           <SocialButton label={'Twitter'} href={'#'}>
             <FaTwitter />
           </SocialButton>
@@ -65,7 +65,7 @@ export default function SmallWithSocial() {
           <SocialButton label={'Instagram'} href={'#'}>
             <FaInstagram />
           </SocialButton>
-        </Stack>
+        </Stack> */}
       </Container>
     </Box>
   )

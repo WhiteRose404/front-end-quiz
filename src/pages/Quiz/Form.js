@@ -13,6 +13,9 @@ import {
 import Loading from '../Loading';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
+import withAuth from '../../lib/auth';
+import get_quiz from '../../lib/get_quiz';
+
 // imp start page, quiz, result, review components
 const Quiz = () => {
   const [state, setState] = React.useState('searching');
@@ -36,69 +39,27 @@ const Quiz = () => {
   };
 
   useEffect(() => {
-    setQuiz([
-      {
-        question: 'What is the capital of France?',
-        options: ['New York', 'London', 'Paris', 'Dublin'],
-        answer: 'Paris',
-        explication: 'Loream ipsum dolor sit amet consectetur adipisiciing elit quia.'
-      },
-      {
-        question: 'Who is CEO of Tesla?',
-        options: ['Jeff Bezos', 'Elon Musk', 'Bill Gates', 'Tony Stark'],
-        answer: 'Elon Musk',
-        explication: 'Loream ipsum dolor sit amet consectetur adipisiciing elit quia.'
-      },
-      {
-        question: 'The iPhone was created by which company?',
-        options: ['Apple', 'Intel', 'Amazon', 'Microsoft'],
-        answer: 'Apple',
-        explication: 'Loream ipsum dolor sit amet consectetur adipisiciing elit quia.'
-      },
-      {
-        question: 'How many Harry Potter books are there?',
-        options: ['1', '4', '6', '7'],
-        answer: '7',
-        explication: 'Loream ipsum dolor sit amet consectetur adipisiciing elit quia.'
-      },
-      {
-        question: 'How many sides does a triangle have?',
-        options: ['3', '4', '6', '7'],
-        answer: '3',
-        explication: 'Loream ipsum dolor sit amet consectetur adipisiciing elit quia.'
-      },
-      {
-        question: 'What is the capital of France?',
-        options: ['New York', 'London', 'Paris', 'Dublin'],
-        answer: 'Paris',
-        explication: 'Loream ipsum dolor sit amet consectetur adipisiciing elit quia.'
-      },
-      {
-        question: 'Who is CEO of Tesla?',
-        options: ['Jeff Bezos', 'Elon Musk', 'Bill Gates', 'Tony Stark'],
-        answer: 'Elon Musk',
-        explication: 'Loream ipsum dolor sit amet consectetur adipisiciing elit quia.'
-      },
-      {
-        question: 'The iPhone was created by which company?',
-        options: ['Apple', 'Intel', 'Amazon', 'Microsoft'],
-        answer: 'Apple',
-        explication: 'Loream ipsum dolor sit amet consectetur adipisiciing elit quia.'
-      },
-      {
-        question: 'How many Harry Potter books are there?',
-        options: ['1', '4', '6', '7'],
-        answer: '7',
-        explication: 'Loream ipsum dolor sit amet consectetur adipisiciing elit quia.'
-      },
-      {
-        question: 'How many sides does a triangle have?',
-        options: ['3', '4', '6', '7'],
-        answer: '3',
-        explication: 'Loream ipsum dolor sit amet consectetur adipisiciing elit quia.'
-      },
-    ]);
-    setState('ready');
+    withAuth();
+    const fun = async () => {
+      const topic = window.location.pathname.split('/')[2];
+      // const topic_def = await get_definition(topic);
+      try{
+        const q = await get_quiz(topic);
+        setQuiz(JSON.parse(q));
+        setState('ready');
+        if (topic === '') {
+          setState("Error");
+          return;
+        }
+        console.log(topic);
+      }catch(err){
+        console.log(err);
+        setState("Error");
+        return;
+      }
+    };
+    fun();
+    // setState('ready');
     setCurrentRound(1);
   }, []);
   const handleNextRound = () => {
@@ -111,7 +72,6 @@ const Quiz = () => {
       }else if(state === 'result'){
         navigate(`/quiz`)
       }
-      
     }
     else if (currentRound < quiz.length) {
       setCurrentRound(currentRound + 1);
@@ -124,6 +84,7 @@ const Quiz = () => {
   };
   if (state === 'searching' || state === 'building' || state === 'validation')
     return <Loading state={state} />;
+  if(state === 'Error') return <Loading state={state} />;
   return (
     <Container p={4}>
       <Heading as="h1" mb={4}>
@@ -208,3 +169,66 @@ const Quiz = () => {
 };
 
 export default Quiz;
+
+    // setQuiz([
+    //   {
+    //     question: 'What is the capital of France?',
+    //     options: ['New York', 'London', 'Paris', 'Dublin'],
+    //     answer: 'Paris',
+    //     explication: 'Loream ipsum dolor sit amet consectetur adipisiciing elit quia.'
+    //   },
+    //   {
+    //     question: 'Who is CEO of Tesla?',
+    //     options: ['Jeff Bezos', 'Elon Musk', 'Bill Gates', 'Tony Stark'],
+    //     answer: 'Elon Musk',
+    //     explication: 'Loream ipsum dolor sit amet consectetur adipisiciing elit quia.'
+    //   },
+    //   {
+    //     question: 'The iPhone was created by which company?',
+    //     options: ['Apple', 'Intel', 'Amazon', 'Microsoft'],
+    //     answer: 'Apple',
+    //     explication: 'Loream ipsum dolor sit amet consectetur adipisiciing elit quia.'
+    //   },
+    //   {
+    //     question: 'How many Harry Potter books are there?',
+    //     options: ['1', '4', '6', '7'],
+    //     answer: '7',
+    //     explication: 'Loream ipsum dolor sit amet consectetur adipisiciing elit quia.'
+    //   },
+    //   {
+    //     question: 'How many sides does a triangle have?',
+    //     options: ['3', '4', '6', '7'],
+    //     answer: '3',
+    //     explication: 'Loream ipsum dolor sit amet consectetur adipisiciing elit quia.'
+    //   },
+    //   {
+    //     question: 'What is the capital of France?',
+    //     options: ['New York', 'London', 'Paris', 'Dublin'],
+    //     answer: 'Paris',
+    //     explication: 'Loream ipsum dolor sit amet consectetur adipisiciing elit quia.'
+    //   },
+    //   {
+    //     question: 'Who is CEO of Tesla?',
+    //     options: ['Jeff Bezos', 'Elon Musk', 'Bill Gates', 'Tony Stark'],
+    //     answer: 'Elon Musk',
+    //     explication: 'Loream ipsum dolor sit amet consectetur adipisiciing elit quia.'
+    //   },
+    //   {
+    //     question: 'The iPhone was created by which company?',
+    //     options: ['Apple', 'Intel', 'Amazon', 'Microsoft'],
+    //     answer: 'Apple',
+    //     explication: 'Loream ipsum dolor sit amet consectetur adipisiciing elit quia.'
+    //   },
+    //   {
+    //     question: 'How many Harry Potter books are there?',
+    //     options: ['1', '4', '6', '7'],
+    //     answer: '7',
+    //     explication: 'Loream ipsum dolor sit amet consectetur adipisiciing elit quia.'
+    //   },
+    //   {
+    //     question: 'How many sides does a triangle have?',
+    //     options: ['3', '4', '6', '7'],
+    //     answer: '3',
+    //     explication: 'Loream ipsum dolor sit amet consectetur adipisiciing elit quia.'
+    //   },
+    // ]);
