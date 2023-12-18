@@ -1,4 +1,4 @@
-export default async function signin(topic) {
+export default async function getQuiz(topic) {
     // store the token in localStorage
     const token = localStorage.getItem("token");
     // if there is no token, return to login page
@@ -26,10 +26,11 @@ export default async function signin(topic) {
         }
     });
     const data = await res.json();
-    console.log(data);
+    console.log("what is up with this", data);
     if (!data.topic || !data.quiz) {
         throw new Error(data.error);
         return;
     }
-    return data.quiz;
+    return data.quiz; // this is a string for production
+    // return JSON.stringify(data.quiz);
 }
