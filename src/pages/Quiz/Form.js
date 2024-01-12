@@ -154,7 +154,7 @@ function FormUI({ mode, quiz, currentRound, handleNextRound, handlePreviousRound
       fontFamily={"ubuntu"}
       alignItems={"center"}
     >
-      <Box
+      {/*<Box
         textAlign={"center"}
       >
         <Heading textTransform={"uppercase"} opacity={0.4} fontWeight={100} fontSize={"lg"}>
@@ -163,7 +163,7 @@ function FormUI({ mode, quiz, currentRound, handleNextRound, handlePreviousRound
         <Text fontWeight={600} opacity={0.8}>
           Ecoutez l'audio et repondez les 4 questions, Choisissez la réponse qui correspond a la question et cliquez sur le reponse correspond.
         </Text>
-      </Box>
+      </Box>*/}
       <Flex textAlign={"center"} gap={0} flexDir={"column"} mb={8}>
         <Heading mt={{ base: 8}} fontSize={{ base: '2xl'}}>
           {/* {'Cliquez sur votre réponse'} */}

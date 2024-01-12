@@ -38,7 +38,7 @@ export default function SimpleCard() {
               <FormLabel fontSize={'sm'}>Password</FormLabel>
               <Input type="password" onChange={(e)=>setPassword(e.target.value)}/>
             </FormControl>
-            <Stack spacing={10}>
+            <Stack spacing={2}>
               <Button
                 bg={'blue.400'}
                 color={'white'}
@@ -54,6 +54,24 @@ export default function SimpleCard() {
                 }}
                 >
                 Log in
+              </Button>
+              <Button
+                color={'blue.400'}
+                variant={"outline"}
+                borderColor={"blue.400"}
+                _hover={{
+                  color: "white",
+                  bg: 'blue.300',
+                }}
+                onClick={async () => {
+                  try{
+                    await signin(username, password);
+                  }catch(err){
+                    console.log(err);
+                  }
+                }}
+                >
+                Register
               </Button>
             </Stack>
           </Stack>

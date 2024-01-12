@@ -99,7 +99,7 @@ export default function SplitWithImage() {
             }}
             to={'/login'}
         >
-            Login to Start QuizGenius
+            Start QuizGenius
         </Button>
       </SimpleGrid>
     </Container>
