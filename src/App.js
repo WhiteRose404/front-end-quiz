@@ -12,27 +12,22 @@ import { AnimatePresence } from 'framer-motion';
 const router = createBrowserRouter([
   {
     path: '/',
-    // exact: true,
     element: <Home />,
   },
   {
     path: '/about',
-    // exact: true,
     element: <About />,
   },
   {
     path: '/login',
-    // exact: true,
     element: <SignIn />,
   },
   {
     path: '/quiz',
-    // exact: true,
     element: <Menu />,
   },
   {
     path: '/quiz/:quizTopic',
-    // exact: true,
     element: <Form />,
   },
   {

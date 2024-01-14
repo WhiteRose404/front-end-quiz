@@ -55,7 +55,7 @@ export default function Nav() {
               </Button>
 
               <Menu>
-                <MenuButton
+                {/* <MenuButton
                   as={Button}
                   rounded={'full'}
                   variant={'link'}
@@ -81,7 +81,7 @@ export default function Nav() {
                   <br />
                   <MenuDivider />
                   <MenuItem>Your Servers</MenuItem>
-                  <MenuItem>Account Settings</MenuItem>
+                  <MenuItem>Account Settings</MenuItem> */}
                   <MenuItem
                     onClick={()=>{
                       // remove token from local storage
@@ -90,7 +90,7 @@ export default function Nav() {
                       window.location.href = '/login';
                     }}
                   >Logout</MenuItem>
-                </MenuList>
+                {/* </MenuList> */}
               </Menu>
             </Stack>
           </Flex>

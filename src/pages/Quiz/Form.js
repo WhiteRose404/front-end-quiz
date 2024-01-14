@@ -15,7 +15,6 @@ import withAuth from '../../lib/auth';
 import get_quiz from '../../lib/get_quiz';
 import { ArrowForwardIcon } from '@chakra-ui/icons';
 
-// imp start page, quiz, result, review components
 export default function Quiz (){
   const [state, setState] = React.useState('searching');
   const [quiz, setQuiz] = React.useState([]);
@@ -26,7 +25,6 @@ export default function Quiz (){
     withAuth();
     const fun = async () => {
       const topic = window.location.pathname.split('/')[2];
-      // const topic_def = await get_definition(topic);
       try{
         const q = await get_quiz(topic);
         setQuiz(JSON.parse(q));
@@ -42,7 +40,6 @@ export default function Quiz (){
       }
     };
     fun();
-    // setState('ready');
     setCurrentRound(1);
   }, []);
   const handleNextRound = () => {
@@ -59,7 +56,6 @@ export default function Quiz (){
   };
   const handleNextReview = () => {
     if(currentRound === quiz.length) {
-      // removed the cached quiz
       localStorage.removeItem(window.location.pathname.split('/')[2]);
       navigate('/quiz');
     }
@@ -132,19 +128,6 @@ export default function Quiz (){
 
 function FormUI({ setMode, mode, quiz, currentRound, handleNextRound, handlePreviousRound, score, setQuiz, ...props }){
   const Alphabets = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
-  // const container = {
-  //   hidden: { opacity: 0 },
-  //   show: {
-  //     opacity: 1,
-  //     transition: {
-  //       staggerChildren: 0.5,
-  //     },
-  //   },
-  // };
-  // const item = {
-  //   hidden: { opacity: 0 },
-  //   show: { opacity: 1 },
-  // };
   const [selected, setSelected] = React.useState(quiz[currentRound - 1].userAttempt);
   const normalMode = useColorModeValue("black", "white");
   const selectedMode = useColorModeValue("blue.200", "blue.800");
@@ -156,19 +139,15 @@ function FormUI({ setMode, mode, quiz, currentRound, handleNextRound, handlePrev
       fontFamily={"ubuntu"}
       alignItems={"center"}
     >
-      {/*<Box
+      <Box
         textAlign={"center"}
       >
         <Heading textTransform={"uppercase"} opacity={0.4} fontWeight={100} fontSize={"lg"}>
-          Comprehension Orale
+          {`Question ${currentRound}/${quiz.length}`}
         </Heading>
-        <Text fontWeight={600} opacity={0.8}>
-          Ecoutez l'audio et repondez les 4 questions, Choisissez la réponse qui correspond a la question et cliquez sur le reponse correspond.
-        </Text>
-      </Box>*/}
+      </Box>
       <Flex textAlign={"center"} gap={0} flexDir={"column"} mb={8}>
         <Heading mt={{ base: 8}} fontSize={{ base: '2xl'}}>
-          {/* {'Cliquez sur votre réponse'} */}
           {quiz.length > 0 && <Text mb={4}>{quiz[currentRound - 1].question}</Text>}
         </Heading>
         {mode === 'review' && <Text fontSize={{ base: 'md'}} color={quiz[currentRound - 1].userAttempt == quiz[currentRound - 1].answer ? "green" : "red"}>{quiz[currentRound - 1].userAttempt == quiz[currentRound - 1].answer ? "Bonne réponse" : "Mavaise réponse"}</Text>}
@@ -187,12 +166,6 @@ function FormUI({ setMode, mode, quiz, currentRound, handleNextRound, handlePrev
         {quiz.length > 0 &&
           quiz[currentRound - 1].options.map((option, index) => {
             return (
-                  // <motion.div
-                  //   variants={container}
-                  //   initial="hidden"
-                  //   animate="show"
-                  //   key={index + option + currentRound + Math.random()}
-                  // >
                     <Button
                       key={index + option + currentRound + Math.random()}
                       variant="outline"
@@ -207,14 +180,11 @@ function FormUI({ setMode, mode, quiz, currentRound, handleNextRound, handlePrev
                       cursor={mode === 'quiz' ? 'pointer' : 'default'}
                       onClick={()=>{
                         if(mode === 'quiz'){
-                          // console.log("attemp", quiz[currentRound - 1])
                           quiz[currentRound - 1].userAttempt = index;
-                          // console.log("cliecked")
                           setSelected(index);
                           setQuiz(quiz);
                         }
                       }}
-                      // bg={mode === 'quiz' ? (quiz[currentRound - 1].userAttempt == index ? "black" : "red"): 'none'}
                       bg={(quiz[currentRound - 1].userAttempt == index ? "gray.300" : "none")}
                       color={"black"}
                       borderColor={mode === 'review' ? (quiz[currentRound - 1].answer == index ? "green.200" : "red.200") : "gray.300"}
@@ -236,17 +206,12 @@ function FormUI({ setMode, mode, quiz, currentRound, handleNextRound, handlePrev
                         color={quiz[currentRound - 1].userAttempt == index ? selectedMode : normalMode}
                       >{option}</Box>
                     </Button>
-                  // </motion.div>
               );
             })}
       </Flex>
       {mode === 'review'
         && 
           <Box
-            // as={motion.div}
-            // initial={{ opacity: 0 }}
-            // animate={{ opacity: 1 }}
-            // exit={{ opacity: 0 }}
             mt={5}
           >
             <Box>
@@ -282,7 +247,6 @@ function FormUI({ setMode, mode, quiz, currentRound, handleNextRound, handlePrev
             <Button
               onClick={()=>{
                 setMode();
-                // setCurrentRound(1);
               }}
               disabled={currentRound === quiz.length}
               bg={"blue.200"}

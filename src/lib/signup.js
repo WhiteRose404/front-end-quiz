@@ -14,6 +14,4 @@ export default async function signup(username, password) {
     if (data.error || data.message === "User already exists") {
         throw new Error(data.error);
     }
-    // localStorage.setItem("token", data.access_token);
-    // window.location.href = "/quiz";
 }

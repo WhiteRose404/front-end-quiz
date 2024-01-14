@@ -1,6 +1,6 @@
 
 import React, { useEffect } from 'react';
-import { Container, Box, Button, Heading, Text, Stack, Checkbox, Input, Select, Flex } from '@chakra-ui/react';
+import { Container, Box, Button, Heading, Text, Input, Select, Flex } from '@chakra-ui/react';
 import { 
   AnimatePresence,
   motion
@@ -23,7 +23,6 @@ const Quiz = () => {
       return;
     }
     const topic = quizTopic === "" ? customQuizTopic : quizTopic;
-    // window.location.href = `/quiz/${topic}`;
     navigate(`/quiz/${topic}`);
   };
   return (
@@ -35,14 +34,12 @@ const Quiz = () => {
         direction="column"
         alignItems="flex-start"
         justifyContent="center"
-        // height="100vh"
         gap={{
           base: 2,
         }}
       >
 
         <Text mb={2}>You can select a topic for the quiz</Text>
-        {/* Render the quiz questions and options here */}
         <Select
           onChange={(e)=>{
             setQuizTopic(e.target.value);

@@ -1,6 +1,6 @@
 
 import React, { useEffect } from 'react';
-import { Box, Heading, Text } from '@chakra-ui/react';
+import { Box, Heading } from '@chakra-ui/react';
 import withAuth from '../lib/auth';
 
 const About = () => {

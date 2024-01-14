@@ -13,7 +13,6 @@ import {
   useColorModeValue,
   Button,
 } from '@chakra-ui/react'
-// import { IoAnalyticsSharp, IoLogoBitcoin, IoSearchSharp } from 'react-icons/io5'
 import { Link } from 'react-router-dom'
 
 

@@ -3,7 +3,6 @@ import { motion } from 'framer-motion';
 import { Container } from '@chakra-ui/react';
 export default ({state}) => {
     return (
-        // loading screen
         <Container
             display={"flex"}
             alignItems={"center"}
@@ -37,7 +36,6 @@ export default ({state}) => {
                     animate={{
                         scale: [2, 1, 1, 2, 2],
                         rotate: [0, 0, -180, -180, 0],
-                        // borderRadius: ["0%", "0%", "50%", "50%", "0%"]
                     }}
                     transition={{
                         duration: 2,

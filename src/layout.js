@@ -15,11 +15,8 @@ function Layout({children}) {
             flexDirection="column"
             background={useColorModeValue('gray.100', 'gray.900')}
         >
-            {/* Your header component */}
             <Nav />
-            {/* Your main content */}
             {children}
-            {/* Your footer component */}
             <Footer />
         </Box>
     );

@@ -31,7 +31,6 @@ export default function SimpleCard() {
   const toast = useToast();
   const navigate = useNavigate();
   useEffect(() => {
-    // remove token from local storage
     localStorage.removeItem('token');
   }, []);
   return (
