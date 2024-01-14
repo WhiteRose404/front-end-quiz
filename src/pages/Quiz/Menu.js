@@ -48,9 +48,9 @@ const Quiz = () => {
             setQuizTopic(e.target.value);
           }}
         >
-          <option value="Kubernates">Kubernates</option>
-          <option value="Gitlab CI">Gitlab CI</option>
-          <option value="Openstack">Openstack</option>
+          <option value="Supply Chain">Supply Chain</option>
+          <option value="Economics">Economics</option>
+          <option value="Finance">Finance</option>
           <option value="">Other</option>
         </Select>
         <AnimatePresence >

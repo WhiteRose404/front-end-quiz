@@ -119,6 +119,12 @@ export default function Quiz (){
             })
           }
         </Flex>
+        <Heading
+          textAlign={"center"}
+          marginTop={5}
+        >
+          {`Votre score est ${score}/${quiz.length}`}
+        </Heading>
       </Container>
     )
 };
