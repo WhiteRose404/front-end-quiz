@@ -17,6 +17,11 @@ export default async function getQuiz(topic) {
         window.location.href = "/login";
         return;
     });
+    // check for cached quiz
+    const cachedQuiz = localStorage.getItem(topic);
+    if (cachedQuiz) {
+        return JSON.parse(cachedQuiz);
+    }
     const res = await fetch(`http://localhost:5000/api/v1/topic/${topic}`, {
         method: "GET",
         credentials: 'include', 
@@ -26,11 +31,12 @@ export default async function getQuiz(topic) {
         }
     });
     const data = await res.json();
-    console.log("what is up with this", data);
     if (!data.topic || !data.quiz) {
         throw new Error(data.error);
         return;
     }
+    // cache the quiz
+    localStorage.setItem(topic, JSON.stringify(data.quiz));
     return data.quiz; // this is a string for production
     // return JSON.stringify(data.quiz);
 }

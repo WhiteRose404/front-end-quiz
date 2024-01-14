@@ -82,7 +82,14 @@ export default function Nav() {
                   <MenuDivider />
                   <MenuItem>Your Servers</MenuItem>
                   <MenuItem>Account Settings</MenuItem>
-                  <MenuItem>Logout</MenuItem>
+                  <MenuItem
+                    onClick={()=>{
+                      // remove token from local storage
+                      localStorage.removeItem('token');
+                      // navigate to signin page
+                      window.location.href = '/login';
+                    }}
+                  >Logout</MenuItem>
                 </MenuList>
               </Menu>
             </Stack>

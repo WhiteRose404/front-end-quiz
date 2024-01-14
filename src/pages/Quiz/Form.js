@@ -4,18 +4,13 @@ import {
   Button,
   Heading,
   Text,
-  Grid,
   Flex,
-  Radio,
-  RadioGroup,
   Box,
-  useColorModeValue,
-  useColorMode,
   Icon,
+  useColorModeValue,
 } from '@chakra-ui/react';
 import Loading from '../Loading';
-import { motion } from 'framer-motion';
-import { Form, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import withAuth from '../../lib/auth';
 import get_quiz from '../../lib/get_quiz';
 import { ArrowForwardIcon } from '@chakra-ui/icons';
@@ -27,7 +22,6 @@ export default function Quiz (){
   const [currentRound, setCurrentRound] = React.useState(1);
   const [score, setScore] = React.useState(0);
   const navigate = useNavigate();
-
   useEffect(() => {
     withAuth();
     const fun = async () => {
@@ -41,7 +35,6 @@ export default function Quiz (){
           setState("Error");
           return;
         }
-        console.log(topic);
       }catch(err){
         console.log(err);
         setState("Error");
@@ -58,7 +51,6 @@ export default function Quiz (){
         alert("Quiz completed");
         setState('done');
         setScore(quiz.filter((q) => q.answer === q.userAttempt).length);
-        console.log(quiz);
       }
     }
     else if (currentRound < quiz.length) {
@@ -67,6 +59,8 @@ export default function Quiz (){
   };
   const handleNextReview = () => {
     if(currentRound === quiz.length) {
+      // removed the cached quiz
+      localStorage.removeItem(window.location.pathname.split('/')[2]);
       navigate('/quiz');
     }
     else if (currentRound < quiz.length) {
@@ -84,7 +78,7 @@ export default function Quiz (){
   if(state === 'searching' || state === 'building' || state === 'validation') return <Loading state={state} />;
   if(state === 'Error') return <Text>Your token is invalid</Text>;
   if(state === 'ready') return <FormUI mode={'quiz'} quiz={quiz} currentRound={currentRound} handleNextRound={handleNextRound} handlePreviousRound={handlePreviousRound} setQuiz={(quiz)=>{setQuiz(quiz)}}/>;
-  if(state === 'review') return <FormUI mode={'review'} quiz={quiz} currentRound={currentRound} handleNextRound={handleNextReview} handlePreviousRound={handlePreviousReview} setQuiz={(quiz)=>{setQuiz(quiz)}}/>;
+  if(state === 'review') return <FormUI setMode={() => setState("done") } mode={'review'} quiz={quiz} currentRound={currentRound} handleNextRound={handleNextReview} handlePreviousRound={handlePreviousReview} setQuiz={(quiz)=>{setQuiz(quiz)}}/>;
   if(state === 'done') 
     return (
       <Container
@@ -119,7 +113,7 @@ export default function Quiz (){
                     setCurrentRound(index+1);
                     setState("review");
                   }}
-                  borderColor={q.userAttempt === q.answer ? "green.200" : "red.200"}
+                  borderColor={q.userAttempt == q.answer ? "green.200" : "red.200"}
                 >{index+1}</Button>
               )
             })
@@ -130,7 +124,7 @@ export default function Quiz (){
 };
 
 
-function FormUI({ mode, quiz, currentRound, handleNextRound, handlePreviousRound, score, setQuiz, ...props }){
+function FormUI({ setMode, mode, quiz, currentRound, handleNextRound, handlePreviousRound, score, setQuiz, ...props }){
   const Alphabets = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
   // const container = {
   //   hidden: { opacity: 0 },
@@ -146,6 +140,8 @@ function FormUI({ mode, quiz, currentRound, handleNextRound, handlePreviousRound
   //   show: { opacity: 1 },
   // };
   const [selected, setSelected] = React.useState(quiz[currentRound - 1].userAttempt);
+  const normalMode = useColorModeValue("black", "white");
+  const selectedMode = useColorModeValue("blue.200", "blue.800");
   return (
     <Flex 
       flexDir={"column"}
@@ -205,6 +201,7 @@ function FormUI({ mode, quiz, currentRound, handleNextRound, handlePreviousRound
                       cursor={mode === 'quiz' ? 'pointer' : 'default'}
                       onClick={()=>{
                         if(mode === 'quiz'){
+                          // console.log("attemp", quiz[currentRound - 1])
                           quiz[currentRound - 1].userAttempt = index;
                           // console.log("cliecked")
                           setSelected(index);
@@ -230,34 +227,34 @@ function FormUI({ mode, quiz, currentRound, handleNextRound, handlePreviousRound
                         {Alphabets[index]}
                       </Box>
                       <Box 
-                        color={quiz[currentRound - 1].userAttempt == index ? "blue.200" : "black"}
+                        color={quiz[currentRound - 1].userAttempt == index ? selectedMode : normalMode}
                       >{option}</Box>
                     </Button>
                   // </motion.div>
               );
             })}
       </Flex>
-      {/* {state === 'result'
+      {mode === 'review'
         && 
-      <Box
-        as={motion.div}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        mt={5}
-      >
-        <Box>
-          <Text
-            fontWeight={600}
-            fontSize={'sm'}
-            color={'black'}
-            bg={'blue.50'}
-            p={2}
-            alignSelf={'flex-start'}
-            rounded={'md'}
-          >{quiz[currentRound - 1].explication}</Text>
-        </Box>
-      </Box>} */}
+          <Box
+            // as={motion.div}
+            // initial={{ opacity: 0 }}
+            // animate={{ opacity: 1 }}
+            // exit={{ opacity: 0 }}
+            mt={5}
+          >
+            <Box>
+              <Text
+                fontWeight={600}
+                fontSize={'sm'}
+                color={'black'}
+                bg={'blue.50'}
+                p={2}
+                alignSelf={'flex-start'}
+                rounded={'md'}
+              >{quiz[currentRound - 1].explication}</Text>
+            </Box>
+          </Box>}
       <Flex
         direction="row"
         alignItems="end"
@@ -274,8 +271,26 @@ function FormUI({ mode, quiz, currentRound, handleNextRound, handlePreviousRound
         <Button onClick={handlePreviousRound} disabled={currentRound <= 1}>
           {mode === 'review' ? 'Question Précedent' : 'Arréter le quiz'}
         </Button>
+        {
+          mode === 'review' && (
+            <Button
+              onClick={()=>{
+                setMode();
+                // setCurrentRound(1);
+              }}
+              disabled={currentRound === quiz.length}
+              bg={"blue.200"}
+              color={"black"}
+            >
+              Board
+            </Button>
+          )
+        }
         <Button
-          onClick={handleNextRound}
+          onClick={()=>{
+            setSelected(-1);
+            handleNextRound();
+          }}
           disabled={currentRound === quiz.length}
           rightIcon={<Icon as={ArrowForwardIcon} />}
           bg={"blue.200"}
